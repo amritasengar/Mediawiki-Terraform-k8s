@@ -29,3 +29,16 @@ resource "aws_internet_gateway" "k8s-igw" {
 
 # -----Route-table-----
 
+
+resource "aws_route_table" "k8s-rt" {
+  vpc_id = "$(aws_vpc.k8s-vpc)"
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = "${aws_internet_gateway.k8s-igw}"
+  }
+ tags{
+   name = "k8s-default-rt"
+}
+}
+
