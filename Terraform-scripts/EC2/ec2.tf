@@ -17,9 +17,9 @@ resource "aws_instance" "kube-master" {
   vpc_security_group_ids = ["${aws_security_group.master-sg.id}"]
 
   provisioner "remote-exec" {
-   script = "./minikube.sh"
+   script = "./kubeadm.sh"
    connection {
-    host        = "${aws_instance.minikube-master.public_ip}"
+    host        = "${aws_instance.kube-master.public_ip}"
     type        = "ssh"
     user        = "ubuntu"
     private_key = "${file(var.private_key_path)}"
