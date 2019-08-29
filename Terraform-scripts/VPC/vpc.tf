@@ -13,7 +13,7 @@ resource "aws_vpc" "k8s-vpc" {
 
 
   tags = {
-    name = "k8s-vpc" 
+    Name = "k8s-vpc" 
  }
 }
 
@@ -81,7 +81,7 @@ resource "aws_subnet" "private_subnet2" {
 
 
 # Creating Security Group for Mediawiki_webservers
-resource "aws_security_group" "webserver_sg" {
+resource "aws_security_group" "master-sg" {
   name        = "master-sg"
   description = "security from kube master"
   vpc_id      = "${aws_vpc.k8s-vpc.id}"
