@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mediawiki-svc
+  labels:
+    app: mediawiki
+spec:
+  ports:
+    - port: 80
+  selector:
+    app: mediawiki
+    tier: frontend
+  type: LoadBalancer
