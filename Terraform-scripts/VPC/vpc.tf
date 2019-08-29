@@ -82,8 +82,8 @@ resource "aws_subnet" "private_subnet2" {
 
 # Creating Security Group for Mediawiki_webservers
 resource "aws_security_group" "webserver_sg" {
-  name        = "webserver_sg"
-  description = "Allow inbound traffic from bastion host"
+  name        = "master-sg"
+  description = "security from kube master"
   vpc_id      = "${aws_vpc.k8s-vpc.id}"
 
   egress {
@@ -96,7 +96,8 @@ resource "aws_security_group" "webserver_sg" {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    security_groups = ["${var.alb_sg}"]
+    cidr_blocks = [0.0.0.0/0]
+    self = true 
   }
     ingress {
     from_port   = 22
