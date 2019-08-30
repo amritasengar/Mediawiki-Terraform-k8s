@@ -28,3 +28,8 @@ You can also run the automation script present inside the repository.
 ```
 sh automation-script.sh
 ```
+## Accessing the Mediawiki Application
+To access the application grab the IP of the worker node from the Terraform output and hit it at 31629 port.
+```
+http://<Worker-node-ip>:31629
+```
