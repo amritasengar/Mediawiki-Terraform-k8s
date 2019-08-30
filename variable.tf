@@ -25,20 +25,20 @@ variable "private_subnet_cidr_list" {
 data "aws_availability_zones" "azs" {}
 
 variable "public_key_path" {
- description = "Your public key path"
- default = "~/.ssh/id_rsa.pub"
+  description = "Your public key path"
+  default     = "~/.ssh/id_rsa.pub"
 }
 
 variable "private_key_path" {
- description = "Your private key path"
- default = "~/.ssh/id_rsa"
+  description = "Your private key path"
+  default     = "~/.ssh/id_rsa"
 }
 
 variable "aws_key_name" {
- description = "Key pair name to use for instances"
- default = "mediawiki-key"
+  description = "Key pair name to use for instances"
+  default     = "mediawiki-key"
 }
 
-variable "aws_instance_type"{
-	default = "t2.medium"
+variable "aws_instance_type" {
+  default = "t2.medium"
 }

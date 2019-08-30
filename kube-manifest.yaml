@@ -1,0 +1,131 @@
+
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: mediawiki-mysql-deploy
+spec:
+  selector:
+   matchLabels:
+    app: mediawiki
+    tier: backend
+  template:
+    metadata:
+      labels:
+        app: mediawiki
+        tier: backend
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:5.7
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: database-secret
+                  key: password
+            - name: MYSQL_DATABASE
+              value: my_wiki
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: database-secret
+                  key: username
+          ports:
+          - containerPort: 3306
+            name: mysql
+
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: database-secret
+type: Opaque
+stringData:
+  username: wikiuser 
+  password: password
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: mediawiki-mysql-svc
+spec:
+  clusterIP: None
+  ports:
+  - port: 3306
+  selector:
+    app: mediawiki
+    tier: backend
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: mediawiki-svc
+  labels:
+    app: mediawiki
+spec:
+  ports:
+    - port: 80
+      nodePort: 31629
+  selector:
+    app: mediawiki
+    tier: frontend
+  type: NodePort
+
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mediawiki-deploy
+  labels:
+    app: mediawiki
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: mediawiki
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        app: mediawiki
+        tier: frontend
+    spec:
+      containers:
+      - name: mediawiki
+        image: mediawiki
+        env:
+         - name: MEDIAWIKI_SITE_SERVER
+           value:
+         - name: MEDIAWIKI_SITE_NAME
+           value: MediaWiki
+         - name: MEDIAWIKI_SITE_LANG
+           value: en
+         - name: MEDIAWIKI_ADMIN_USER
+           value: admin
+         - name: MEDIAWIKI_ADMIN_PASS
+           value: admin
+         - name: MEDIAWIKI_UPDATE
+           value: 'true'
+         - name: MEDIAWIKI_DB_TYPE
+           value: mysql
+         - name: MEDIAWIKI_DB_USER
+           value: root
+         - name: MEDIAWIKI_DB_PASSWORD
+           value: password
+         - name: MEDIAWIKI_DB_HOST
+           value: mediawiki-mysql-svc
+
+        ports:
+        - containerPort: 80
+
+---

@@ -107,10 +107,17 @@ resource "aws_security_group" "master-sg" {
   }
 
   ingress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-		self	= "true"
+    from_port = 0
+    to_port   = 0
+    protocol  = "-1"
+    self      = "true"
+  }
+
+  ingress {
+    from_port = 31629
+    to_port   = 31629
+    protocol  = "tcp"
+    cidr_blocks	=	["0.0.0.0/0"]
   }
 }
 

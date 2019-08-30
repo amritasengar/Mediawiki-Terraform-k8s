@@ -35,7 +35,7 @@ echo "####################################"
 echo "Installed Kubeadm, Kubelet, Kubectl and keeping them on hold"
 echo "Setting up kubernetes using kubeadm"
 kubeadm init
-sleep 5m
+sleep 2m
 export KUBECONFIG=/etc/kubernetes/admin.conf
 export KUBECONFIG=/etc/kubernetes/admin.conf
 export KUBECONFIG=/etc/kubernetes/admin.conf

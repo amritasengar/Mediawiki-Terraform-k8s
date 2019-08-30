@@ -26,3 +26,11 @@ output "master-sg" {
   value = "${aws_security_group.master-sg.id}"
 }
 
+output "aws-worker1-public-ip"{
+	value	= "${aws_instance.kube-worker1.public_ip}"
+}
+
+
+output "aws-worker2-public-ip"{
+	value	= "${aws_instance.kube-worker2.public_ip}"
+}
